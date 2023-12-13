@@ -1,5 +1,6 @@
 import snowflake.connector
 import pandas as pd
+import streamlit as st
 from app_secrets import *
 
 def execute_sf_query(sql):

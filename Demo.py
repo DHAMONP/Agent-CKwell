@@ -37,8 +37,8 @@ def match_statement(statement, values):
     return matched_value
 
 #st.secrets.OPENAI_API_KEY = OPENAI_API_KEY
-#openai.api_key = st.secrets.OPENAI_API_KEY
-openai.api_key = OPENAI_API_KEY
+openai.api_key = st.secrets.OPENAI_API_KEY
+#openai.api_key = OPENAI_API_KEY
 
 st.title(":male-detective:	Agent C-Kwell")
 
