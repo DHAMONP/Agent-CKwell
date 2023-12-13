@@ -6,13 +6,13 @@ from app_secrets import *
 def execute_sf_query(sql):
     # Snowflake connection parameters
     connection_params = {
-        'user': SF_USER,
-        'password': SF_PASSWORD,
-        'account': SF_ACCOUNT,
-        'warehouse': SF_WAREHOUSE,
-        'database': SF_DATABASE,
-        'schema': SF_SCHEMA,
-        'role':SF_ROLE,
+        'user': st.secrets.SF_USER,
+        'password': st.secrets.SF_PASSWORD,
+        'account': st.secrets.SF_ACCOUNT,
+        'warehouse': st.secrets.SF_WAREHOUSE,
+        'database': st.secrets.SF_DATABASE,
+        'schema': st.secrets.SF_SCHEMA,
+        'role':st.secrets.SF_ROLE,
         'protocol':'https',
         'login_timeout':60
     }
