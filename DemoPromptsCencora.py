@@ -39,6 +39,11 @@ Be professional in your tone. Keep the description concise.
 Then provide the below questions as examples to the user
 1. Show number of patients who has enrolled
 2. Show missing information per person by different states
+3. Which states have the highest enrollment rates?
+4. What is the national enrollment rate?
+5. Can I see enrollment trend by months?
+6. Which HCPs have the maximum number of patients with missing information?
+7. Identify top Pharmacies in NY by patient enrollment
 
 Only provide the above example test. No need to share the SQL query for the examples
 """
@@ -76,7 +81,49 @@ context = '''Given below are the table structure in snowflake cloud database tha
               your generated sql query : select state_name, count(PAT_ID) from PATIENT_DETAILS 
                                             where reason_of_pa_process_patients = 'Missing Information' and enrollment = 'Enrolled'
                                             group by state_name;
-              
+              example:
+                question : Which states have the highest enrollment rates?
+                user generate sql query : select (A.Number_of_Patients/B.Number_of_Patients)*100 as Enrollment_rate, A.state_name from (
+                (select count(PAT_ID) Number_of_Patients, state_name from PATIENT_DETAILS 
+                where enrollment = 'Enrolled' 
+                group by state_name)A
+                INNER JOIN
+                (select count(PAT_ID) Number_of_Patients, state_name from PATIENT_DETAILS 
+                group by state_name)B 
+                ON A.state_name = B.state_name) order by Enrollment_rate desc;
+
+                example:
+                Question : What is the national enrollment rate?
+                user generate sql query : select distinct (select count(PAT_ID) Number_of_Patients from PATIENT_DETAILS 
+                where enrollment = 'Enrolled')/
+                (select count(PAT_ID) Number_of_Patients from PATIENT_DETAILS)*100 as National_Enrollment_rate 
+                from PATIENT_DETAILS;
+
+                example:
+                question : Can I see enrollment trend by months?
+                user generated sql query : select (A.Number_of_Patients/B.Number_of_Patients)*100 as Enrollment_rate, A.month_name from (
+                (select count(PAT_ID) Number_of_Patients, monthname(initiation_date) as month_name from PATIENT_DETAILS 
+                where enrollment = 'Enrolled' 
+                group by month_name)A
+                INNER JOIN
+                (select count(PAT_ID) Number_of_Patients, monthname(initiation_date) as month_name from PATIENT_DETAILS 
+                group by month_name)B 
+                ON A.month_name = B.month_name) order by Enrollment_rate desc;
+
+                example:
+                question : Which HCPs have the maximum number of patients with missing information?
+                user generated sql query : select HCP_name, count(PAT_ID) as Number_of_Patients from PATIENT_DETAILS 
+                where reason_of_pa_process_patients = 'Missing Information' 
+                group by HCP_name 
+                order by Number_of_Patients desc;
+
+                exmaple:
+                question : Identify top Pharmacies in NY by patient enrollment.
+                user generated sql query : select pharmacy_name, count(PAT_ID) as Number_of_Patients from PATIENT_DETAILS
+                where state_name = 'New York' and enrollment = 'Enrolled'
+                group by pharmacy_name 
+                order by Number_of_Patients desc;
+                
               user question : {input} 
               your generated sql query : '''
 
