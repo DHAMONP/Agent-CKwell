@@ -3,7 +3,7 @@ import re
 import streamlit as st
 import pandas as pd
 import altair as alt
-from DemoPrompts import get_system_prompt
+from DemoPromptsCencora import get_system_prompt
 from decimal import Decimal  # Import Decimal type
 from app_secrets import *
 from sql_execution import execute_sf_query
