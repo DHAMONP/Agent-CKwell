@@ -27,7 +27,14 @@ Only provide this if the user asks for explanation of the query. Your response s
 5. You should only use the table and columns given abov. You MUST NOT hallucinate about the table names and column names. Use only what is passed in the context
 6. DO NOT put numerical at the very front of sql variable.
 7. If the user asks for a basic chart, do not say you cannot generate graphs
-8. If there is any queries related to enrollment refer the mentioned examples below and generate the query. Do not change the query format
+8. when you get a question as - Which states have the highest enrollment rates? Generate the SQL query as - select (A.Number_of_Patients/B.Number_of_Patients)*100 as Enrollment_rate, A.state_name from (
+                (select count(PAT_ID) Number_of_Patients, state_name from PATIENT_DETAILS 
+                where enrollment = 'Enrolled' 
+                group by state_name)A
+                INNER JOIN
+                (select count(PAT_ID) Number_of_Patients, state_name from PATIENT_DETAILS 
+                group by state_name)B 
+                ON A.state_name = B.state_name) order by Enrollment_rate desc;
 </rules>
 
 Don't forget to use "ilike %keyword%" for fuzzy match queries (especially for variable_name column)
