@@ -40,7 +40,7 @@ def match_statement(statement, values):
 openai.api_key = st.secrets.OPENAI_API_KEY
 #openai.api_key = OPENAI_API_KEY
 
-st.title(":dart:	Agent C-Kwell")
+st.title(":dart:	Data Insight Assist")
 
 #conn = st.experimental_connection("snowpark")
 
