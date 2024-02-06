@@ -27,6 +27,7 @@ Only provide this if the user asks for explanation of the query. Your response s
 5. You should only use the table and columns given abov. You MUST NOT hallucinate about the table names and column names. Use only what is passed in the context
 6. DO NOT put numerical at the very front of sql variable.
 7. If the user asks for a basic chart, do not say you cannot generate graphs
+8. If there is any queries related to enrollment refer the mentioned examples below and generate the query. Do not change the query format
 </rules>
 
 Don't forget to use "ilike %keyword%" for fuzzy match queries (especially for variable_name column)
@@ -114,14 +115,14 @@ context = '''Given below are the table structure in snowflake cloud database tha
                 group by HCP_name 
                 order by Number_of_Patients desc;
 
-                exmaple:
+                example:
                 question : Identify top Pharmacies in NY by patient enrollment.
                 user generated sql query : select pharmacy_name, count(PAT_ID) as Number_of_Patients from PATIENT_DETAILS
                 where state_name = 'New York' and enrollment = 'Enrolled'
                 group by pharmacy_name 
                 order by Number_of_Patients desc;
 
-                exmaple:
+                example:
                 question : How many patients have enrolled in the age group of 30-40 along with indication?
                 user generated sql query : select indication, age_group,count(PAT_ID) as Number_of_Patients from PATIENT_DETAILS 
                 where enrollment = 'Enrolled' and age_group = '30-40'
