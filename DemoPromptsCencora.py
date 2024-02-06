@@ -68,7 +68,9 @@ context = '''Given below are the table structure in snowflake cloud database tha
               Cancellation VARCHAR(50),
               Patient_Onboarding VARCHAR(50),
               Days_Pending NUMBER(12,2),
-              Enrollment VARCHAR(10)
+              Enrollment VARCHAR(10),
+              Indication VARCHAR(100),
+              Age_Group VARCHAR(50)
           );
 
                   take user questions and response back with sql query.
@@ -123,6 +125,12 @@ context = '''Given below are the table structure in snowflake cloud database tha
                 where state_name = 'New York' and enrollment = 'Enrolled'
                 group by pharmacy_name 
                 order by Number_of_Patients desc;
+
+                exmaple:
+                question : How many patients have enrolled in the age group of 30-40 along with indication?
+                user generated sql query : select indication, age_group,count(PAT_ID) as Number_of_Patients from PATIENT_DETAILS 
+                where enrollment = 'Enrolled' and age_group = '30-40'
+                group by indication,age_group;
                 
               user question : {input} 
               your generated sql query : '''
